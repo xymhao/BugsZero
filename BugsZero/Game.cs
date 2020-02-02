@@ -17,11 +17,14 @@ namespace BugsZero
         Queue sportsQuestions = new Queue();
         Queue rockQuestions = new Queue();
 
+        private ConsoleLog Console;
+
         int currentPlayer = 0;
         bool isGettingOutOfPenaltyBox;
 
-        public Game()
+        public Game(ConsoleLog log)
         {
+            Console = log ?? new ConsoleLog();
             for (int i = 0; i < 50; i++)
             {
                 popQuestions.Enqueue("Pop Question " + i);

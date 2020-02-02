@@ -16,9 +16,9 @@ namespace BugsZero
             playGame(rand);
         }
 
-        public static void playGame(Random rand)
+        public static void playGame(Random rand, ConsoleLog log = null)
         {
-            Game aGame = new Game();
+            Game aGame = new Game(log);
 
             aGame.add("Chet");
             aGame.add("Pat");
