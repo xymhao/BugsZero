@@ -13,30 +13,29 @@ namespace BugsZero
         static void Main(string[] args)
         {
             Random rand = new Random();
-            playGame(rand);
+            PlayGame(rand);
         }
 
-        public static void playGame(Random rand, ConsoleLog log = null)
+        public static void PlayGame(Random rand, ConsoleLog log = null)
         {
             Game aGame = new Game(log);
 
-            aGame.add("Chet");
-            aGame.add("Pat");
-            aGame.add("Sue");
-
+            aGame.Add("Chet");
+            aGame.Add("Pat");
+            aGame.Add("Sue");
 
             do
             {
 
-                aGame.roll(rand.Next(5) + 1);
+                aGame.Roll(rand.Next(5) + 1);
 
                 if (rand.Next(9) == 7)
                 {
-                    notAWinner = aGame.wrongAnswer();
+                    notAWinner = aGame.WrongAnswered();
                 }
                 else
                 {
-                    notAWinner = aGame.wasCorrectlyAnswered();
+                    notAWinner = aGame.CorrectlyAnswered();
                 }
 
 

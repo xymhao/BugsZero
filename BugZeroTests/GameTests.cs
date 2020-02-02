@@ -17,7 +17,7 @@ namespace BugZeroTests
             var log = new ConsoleLog();
             for (int i = 0; i < 15; i++)
             {
-                GameRunner.playGame(randomizer, log);
+                GameRunner.PlayGame(randomizer, log);
             }
 
             var expected = File.ReadAllText("D:/Refactor/BugsZero/BugZeroTests/GameTest.itsLockedDown.approved.txt");
