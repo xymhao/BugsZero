@@ -112,18 +112,34 @@ namespace BugsZero
 
         private string CurrentCategory()
         {
-            if (_places[_currentPlayer] == 0) return "Pop";
-            if (_places[_currentPlayer] == 4) return "Pop";
-            if (_places[_currentPlayer] == 8) return "Pop";
+            if (IsPop()) return "Pop";
 
-            if (_places[_currentPlayer] == 1) return "Science";
-            if (_places[_currentPlayer] == 5) return "Science";
-            if (_places[_currentPlayer] == 9) return "Science";
+            if (IsScience()) return "Science";
 
-            if (_places[_currentPlayer] == 2) return "Sports";
-            if (_places[_currentPlayer] == 6) return "Sports";
-            if (_places[_currentPlayer] == 10) return "Sports";
+            if (IsSports()) return "Sports";
+
             return "Rock";
+        }
+
+        private bool IsSports()
+        {
+            return _places[_currentPlayer] == 2
+                || _places[_currentPlayer] == 6
+                || _places[_currentPlayer] == 10;
+        }
+
+        private bool IsScience()
+        {
+            return _places[_currentPlayer] == 1
+                || _places[_currentPlayer] == 5
+                || _places[_currentPlayer] == 9;
+        }
+
+        private bool IsPop()
+        {
+            return _places[_currentPlayer] == 0
+                   || _places[_currentPlayer] == 4
+                   || _places[_currentPlayer] == 8;
         }
 
         public bool CorrectlyAnswered()
@@ -132,52 +148,65 @@ namespace BugsZero
             {
                 if (_isGettingOutOfPenaltyBox)
                 {
-                    _console.WriteLine("Answer was correct!!!!");
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
-                    _purses[_currentPlayer]++;
-                    _console.WriteLine(_players[_currentPlayer]
-                            + " now has "
-                            + _purses[_currentPlayer]
-                            + " Gold Coins.");
-
-                    return PlayerWin();
+                    AddCoiins();
+                    bool winner = PlayerWin();
+                    NextPlayer();
+                    return winner;
                 }
                 else
                 {
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
+                    NextPlayer();
                     return true;
                 }
             }
             else
             {
-
-                _console.WriteLine("Answer was corrent!!!!");
-                _purses[_currentPlayer]++;
-                _console.WriteLine(_players[_currentPlayer]
-                        + " now has "
-                        + _purses[_currentPlayer]
-                        + " Gold Coins.");
-
+                AddCoiins();
                 bool winner = PlayerWin();
-                _currentPlayer++;
-                if (_currentPlayer == _players.Count) _currentPlayer = 0;
-
+                NextPlayer();
                 return winner;
             }
         }
 
         public bool WrongAnswered()
         {
+            if (_inPenaltyBox[_currentPlayer] 
+                && !_isGettingOutOfPenaltyBox)
+            {
+                NextPlayer();
+                return true;
+            }
+
+            SendToBox();
+            NextPlayer();
+            return true;
+        }
+
+        private void SendToBox()
+        {
             _console.WriteLine("Question was incorrectly answered");
             _console.WriteLine(_players[_currentPlayer] + " was sent to the penalty box");
             _inPenaltyBox[_currentPlayer] = true;
-
-            _currentPlayer++;
-            if (_currentPlayer == _players.Count) _currentPlayer = 0;
-            return true;
         }
+
+        private void NextPlayer()
+        {
+            _currentPlayer++;
+            if (_currentPlayer == _players.Count)
+                _currentPlayer = 0;
+        }
+
+        private void AddCoiins()
+        {
+            _console.WriteLine("Answer was correct!!!!");
+            _purses[_currentPlayer]++;
+            _console.WriteLine(_players[_currentPlayer]
+                    + " now has "
+                    + _purses[_currentPlayer]
+                    + " Gold Coins.");
+        }
+
+
 
 
         private bool PlayerWin()

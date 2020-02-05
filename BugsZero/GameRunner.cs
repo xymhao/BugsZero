@@ -13,7 +13,9 @@ namespace BugsZero
         static void Main(string[] args)
         {
             Random rand = new Random();
-            PlayGame(rand);
+            var consoleLog = new ConsoleLog();
+            PlayGame(rand, consoleLog);
+
         }
 
         public static void PlayGame(Random rand, ConsoleLog log = null)
